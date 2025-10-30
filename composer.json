@@ -7,11 +7,22 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "guzzlehttp/guzzle": "^7.10",
         "laravel/framework": "^12.0",
-        "laravel/tinker": "^2.10.1"
+        "laravel/sanctum": "^4.2",
+        "laravel/scout": "^10.20",
+        "laravel/tinker": "^2.10.1",
+        "meilisearch/meilisearch-php": "^1.16",
+        "openai-php/laravel": "^0.17.1",
+        "predis/predis": "^3.2",
+        "spatie/laravel-permission": "^6.22",
+        "symfony/css-selector": "^7.3",
+        "symfony/dom-crawler": "^7.3",
+        "telegram-bot/api": "^2.5"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
+        "laravel/breeze": "^2.3",
         "laravel/pail": "^1.2.2",
         "laravel/pint": "^1.13",
         "laravel/sail": "^1.41",
@@ -50,6 +61,37 @@
         "dev": [
             "Composer\\Config::disableProcessTimeout",
             "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite"
+        ],
+        "fresh": [
+            "@php artisan migrate:fresh --seed"
+        ],
+        "fresh-cache": [
+            "@fresh",
+            "@cache"
+        ],
+        "cache": [
+            "@php artisan optimize:clear",
+            "@php artisan config:cache",
+            "@php artisan route:cache",
+            "@php artisan view:cache"
+        ],
+        "cache-clear": [
+            "@php artisan optimize:clear"
+        ],
+        "test": [
+            "@php artisan test"
+        ],
+        "test-coverage": [
+            "@php artisan test --coverage"
+        ],
+        "format": [
+            "./vendor/bin/pint"
+        ],
+        "setup": [
+            "@composer install",
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
+            "@php artisan key:generate",
+            "@fresh-cache"
         ]
     },
     "extra": {
